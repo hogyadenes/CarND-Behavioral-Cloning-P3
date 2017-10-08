@@ -1,8 +1,6 @@
-#**Behavioral Cloning** 
+**Behavioral Cloning** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+In this project for udacity I developed a convolutional neural network in Keras to drive a car in a simulator. The network is based on [NVIDIA's approach](https://arxiv.org/pdf/1604.07316) of End-to-End Learning for Self Driving Cars. This is basically a deep learning only solution without any conventional feature extraction (such as image processing, filtering etc) - apart from normalizing the input data. My solution runs in the default udacity setup, which uses the center camera images of the simulated car to drive it safely on the road. For the detailed description of my solution please read the following sections.
 
 ---
 
@@ -14,17 +12,6 @@ The goals / steps of this project are the following:
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
-
-
-[//]: # (Image References)
-
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -38,7 +25,7 @@ My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* README.md summarizing the results
 
 ####2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
@@ -54,23 +41,48 @@ The model.py file contains the code for training and saving the convolution neur
 
 ####1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My model is based on the NVIDIA solution for self driving cars. This is a multilayer convolutional neural network built in Keras consisting of one cropping, one normalizing, 5 convolutional and 4 fully connected layers with a single output (which is the driving angle).
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+The cropping layer cuts off the top 55 and bottom 25 pixels which are usually don't contain valuable information thus effectively reducing the input size to the half (from 160x320x3 to 80x320x3). 
+
+The model uses RELU as activation function to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer.
+
+The detailed description of the model is the following:
+|Layer	|Description|
+|Input	|160x320x3 RGB image A|
+|Cropping	|Crop top 55 pixels and bottom 25 pixels; output shape = 80x320x3|
+|Normalization	|value/255 - 0.5|
+|Convolution 5x5	|5x5 kernel, 2x2 stride, 24 output channels, output shape = 38x158x24|
+|RELU	|	|
+|Convolution 5x5	|5x5 kernel, 2x2 stride, 36 output channels, output shape = 17x77x36|
+|RELU	|	|
+|Convolution 5x5	|5x5 kernel, 2x2 stride, 48 output channels, output shape = 7x37x48|
+|RELU	|	|
+|Convolution 5x5	|3x3 kernel, 1x1 stride, 64 output channels, output shape = 5x35x64|
+|RELU	|	|
+|Convolution 5x5	|3x3 kernel, 1x1 stride, 64 output channels, output shape = 3x33x64|
+|RELU	|	|
+|Flatten|	Input 3x33x64, output 6336|
+|Fully connected|	Input 6336, output 100|
+|Fully connected|	Input 100, output 50|
+|Fully connected|	Input 50, output 10|
+|Fully connected|	Input 10, output 1 (labels)|
+
+The network has 770619 total training parameters.
 
 ####2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+I experimented with dropout but the results did not improve and the network itself did not show signs of overfitting either (the results on the training and validation set correlated reasonably). The reason for this could be that the input is very noisy and nondeterministic (especially when using keyboard input during training). As I created quite a lot of extra training data the noise itself could prevent overfitting.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on five different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. The results are quite good on the hilly track either.
 
 ####3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually.
 
 ####4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road, driving in the opposite direction and on both tracks. 
 
 For details about how I created the training data, see the next section. 
 
@@ -78,15 +90,11 @@ For details about how I created the training data, see the next section.
 
 ####1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to create a relatively simple approach but my goal was to achieve at least a partial solution on the more difficult track as well.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+My first step was to use a convolution neural network model similar to the LeNet. I thought this model might be appropriate because I used it successfully in the previous (traffic sign identification) project. However, as it did not give perfect results even on the difficult parts of the first track, I moved on to a more powerful network, which NVIDIA proposed as a self driving car solution.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. 
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
