@@ -3,6 +3,7 @@ import base64
 from datetime import datetime
 import os
 import shutil
+import tensorflow as tf
 
 import numpy as np
 import socketio
@@ -15,6 +16,10 @@ from io import BytesIO
 from keras.models import load_model
 import h5py
 from keras import __version__ as keras_version
+
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
 
 sio = socketio.Server()
 app = Flask(__name__)
@@ -44,7 +49,7 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 30
 controller.set_desired(set_speed)
 
 
