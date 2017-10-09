@@ -27,7 +27,7 @@ My project includes the following files:
 * model.h5 containing a trained convolution neural network 
 * README.md summarizing the results
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
@@ -118,16 +118,15 @@ Because the second track had some really hard turns which challenged even me to 
 
 [Example](examples/center_2017_10_08_18_21_49_898.jpg)
 
-To augment the data sat, I flipped all the images and angles. This created a whole lot of extra training data practically for free.
+To augment the data set, I flipped all the images and angles. This created a whole lot of extra training data practically for free.
 
 [Example](examples/center_2017_10_08_18_21_59_562.jpg)
 [Example](examples/center_2017_10_08_18_21_59_562.jpg_flipped)
 
+I also included all the left and right camera angles for training, using only a relatively small correction. My correction angle value is a result of a lot of experimentation and I am not sure that it would work for all other networks because I heard all kinds of tips for this value but for me the best value was 0.055 (and I tried almost everything between 0.05 and 0.125). With bigger corrections the car reacted more agressively at turns but this became a problem on the second track (where really hard turns are quite common) and the car sometimes simply oversteered and fall off on the other side or was impossible to make the following hard turn.
 
+After the this, I randomly removed 3/4 of the non-steering images to keep a more healthy ratio between curves and turns. Eventually, I had more than 90000 data points. As preprocessing I used only normalization and cropping.
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during training which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateued. 
 
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+As I used an adam optimizer manually training the learning rate wasn't necessary.
