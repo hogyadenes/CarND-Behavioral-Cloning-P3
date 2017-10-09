@@ -3,10 +3,7 @@
 In this project for udacity I developed a convolutional neural network in Keras to drive a car in a simulator. The network is based on [NVIDIA's approach](https://arxiv.org/pdf/1604.07316) of End-to-End Learning for Self Driving Cars. This is basically a deep learning only solution without any conventional feature extraction (such as image processing, filtering etc) - apart from normalizing the input data. My solution runs in the default udacity setup, which uses the center camera images of the simulated car to drive it safely on the road. For the detailed description of my solution please read the following sections.
 
 ---
-
-** Behavioral Cloning Project**
-
-The goals / steps of this project are the following:
+The goals / steps of this project were the following:
 * Use the simulator to collect data of good driving behavior
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
@@ -14,9 +11,7 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 ## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
----
 ### Files Submitted & Code Quality
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
@@ -127,6 +122,6 @@ I also included all the left and right camera angles for training, using only a 
 
 After the this, I randomly removed 3/4 of the non-steering images to keep a more healthy ratio between curves and turns. Eventually, I had more than 90000 data points. As preprocessing I used only normalization and cropping.
 
-I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during training which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateued. 
+I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during training which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateaued. One epoch ran for about 2 minutes on my Geforce 980Ti.
 
 As I used an adam optimizer manually training the learning rate wasn't necessary.
