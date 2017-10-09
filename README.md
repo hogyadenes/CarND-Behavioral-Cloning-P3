@@ -48,7 +48,9 @@ The cropping layer cuts off the top 55 and bottom 25 pixels which are usually do
 The model uses RELU as activation function to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer.
 
 The detailed description of the model is the following:
-|Layer	|Description|
+
+|Layer	                | Description                                   |
+|:---------------------:|:---------------------------------------------:|
 |Input	|160x320x3 RGB image A|
 |Cropping	|Crop top 55 pixels and bottom 25 pixels; output shape = 80x320x3|
 |Normalization	|value/255 - 0.5|
@@ -68,17 +70,19 @@ The detailed description of the model is the following:
 |Fully connected|	Input 50, output 10|
 |Fully connected|	Input 10, output 1 (labels)|
 
-The network has 770619 total training parameters.
+The network has 770619 total training parameters. 
 
 ####2. Attempts to reduce overfitting in the model
 
-I experimented with dropout but the results did not improve and the network itself did not show signs of overfitting either (the results on the training and validation set correlated reasonably). The reason for this could be that the input is very noisy and nondeterministic (especially when using keyboard input during training). As I created quite a lot of extra training data the noise itself could prevent overfitting.
+The original dataset contained 24155 images, which is not bad, but all of them are from the first track. I inatially trained my network on this dataset and tested an the first track only. It started to work reasonably quite early on using the NVIDIA network but the results on the other track was a complete disaster. I guessed it might just have learned the first track so I introduced many dropout layers (on the output and on the fully connected layers) but the results did not improve. So I choose an approach to create a bigger and more diverse dataset and created more than 40000 extra images for training. I also removed most of the straight images (those without angle correction). 
 
-The model was trained and validated on five different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. The results are quite good on the hilly track either.
+On my much bigger dataset I also experimented with dropout but the results did not improve (but deteriorate) and the network itself did not show signs of overfitting either (the loss on the training and validation set correlated reasonably). The reason for this could be that the input is very noisy and nondeterministic (especially on my data where I used keyboard input during training). As I created quite a lot of extra training data the noise itself could prevent overfitting.
+
+The model was trained and validated on five different data sets to test and ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track. The results are good on tracks as the car drives without problems even with faster speeds (15 or even 30 mph)
 
 ####3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually.
+I used an adam optimizer, so the learning rate was not tuned manually.
 
 ####4. Appropriate training data
 
@@ -94,7 +98,7 @@ The overall strategy for deriving a model architecture was to create a relativel
 
 My first step was to use a convolution neural network model similar to the LeNet. I thought this model might be appropriate because I used it successfully in the previous (traffic sign identification) project. However, as it did not give perfect results even on the difficult parts of the first track, I moved on to a more powerful network, which NVIDIA proposed as a self driving car solution.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. As I created a lot of extra images it was impossible to keep all of them in the memory. So I created a generator function which loads the images as they are needed. This keeps the required memory size on a manageable level. I trained on my 980ti video card which has 6Gb of ram so I used a bigger batch size 
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
 
