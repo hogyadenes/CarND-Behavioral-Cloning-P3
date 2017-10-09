@@ -119,7 +119,7 @@ To augment the data set, I flipped all the images and angles. This created a who
 |:---------------------:|:---------------------:|
 |![Example](examples/center_2017_10_08_18_21_59_562.jpg)|![Example](examples/center_2017_10_08_18_21_59_562_flipped.jpg)|
 
-I also included all the left and right camera angles for training, using only a relatively small correction. My correction angle value is a result of a lot of experimentation and I am not sure that it would work for all other networks because I heard all kinds of tips for this value but for me the best value was 0.055 (and I tried almost everything between 0.05 and 0.125). With bigger corrections the car reacted more agressively at turns but this became a problem on the second track (where really hard turns are quite common) and the car sometimes simply oversteered and fall off on the other side or was impossible to make the following hard turn.
+I also included all the left and right camera angles for training, using only a relatively small correction. My correction angle value is a result of a lot of experimentation and I am not sure that it would work for all other networks because I heard all kinds of tips for this value but for me the best value was 0.055 (and I tried almost everything between 0.05 and 0.125). With bigger corrections the car reacted more agressively at turns but this became a problem on the second track (where really hard turns are quite common) and the car either oversteered and fall off on the other side or was impossible to make the following hard turn.
 
 |Left	                  | Centre                |Right                  | 
 |:---------------------:|:---------------------:|:---------------------:|
