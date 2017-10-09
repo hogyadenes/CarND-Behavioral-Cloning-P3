@@ -40,7 +40,7 @@ The model.py file contains the code for training and saving the convolution neur
 
 My model is based on the NVIDIA solution for self driving cars. This is a multilayer convolutional neural network built in Keras consisting of one cropping, one normalizing, 5 convolutional and 4 fully connected layers with a single output (which is the driving angle).
 
-The cropping layer cuts off the top 55 and bottom 25 pixels which are usually don't contain valuable information thus effectively reducing the input size to the half (from 160x320x3 to 80x320x3). 
+The cropping layer cuts off the top 55 and bottom 25 pixels which are usually don't contain valuable information but with this I was able to reduce the input size to the half (from 160x320x3 to 80x320x3). 
 
 The model uses RELU as activation function to introduce nonlinearity, and the data is normalized in the model using a Keras lambda layer.
 
