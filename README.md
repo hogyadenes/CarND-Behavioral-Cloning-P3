@@ -120,7 +120,7 @@ To augment the data set, I flipped all the images and angles. This created a who
 
 I also included all the left and right camera angles for training, using only a relatively small correction. My correction angle value is a result of a lot of experimentation and I am not sure that it would work for all other networks because I heard all kinds of tips for this value but for me the best value was 0.055 (and I tried almost everything between 0.05 and 0.125). With bigger corrections the car reacted more agressively at turns but this became a problem on the second track (where really hard turns are quite common) and the car sometimes simply oversteered and fall off on the other side or was impossible to make the following hard turn.
 
-After the this, I randomly removed 3/4 of the non-steering images to keep a more healthy ratio between curves and turns. Eventually, I had more than 90000 data points. As preprocessing I used only normalization and cropping.
+After the this, I randomly removed 3/4 of the non-steering images to keep a more healthy ratio between straight sections and curves. Eventually, I had more than 90000 data points. As preprocessing I used only normalization and cropping.
 
 I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during training which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateaued. One epoch ran for about 2 minutes on my Geforce 980Ti.
 
