@@ -107,16 +107,17 @@ After all those experimenting with dropouts my final model architecture became t
 
 I did not create any extra images on the first track because the results were good using only the provided dataset. I needed to create a lot of extra images on the second track, however. This includes driving on both directions (one-one circle) and partially recording some of the harder curves. There is one particularly hard part on the track where a difficult shadow cheats the network from turning and it usually drives straight to the wall instead.
 
-[Example](examples/center_2017_10_08_18_20_21_426.jpg)
+![Example](examples/center_2017_10_08_18_20_21_426.jpg)
 
 Because the second track had some really hard turns which challenged even me to drive on the middle of the road (I did not always manage to keep the car on the road, even) I did not create any extra recovery because hard turns and almost-fall-offs were quite regular in the training set.
 
-[Example](examples/center_2017_10_08_18_21_49_898.jpg)
+![Example](examples/center_2017_10_08_18_21_49_898.jpg)
 
 To augment the data set, I flipped all the images and angles. This created a whole lot of extra training data practically for free.
 
-[Example](examples/center_2017_10_08_18_21_59_562.jpg)
-[Example](examples/center_2017_10_08_18_21_59_562.jpg_flipped)
+![Example](examples/center_2017_10_08_18_21_59_562.jpg)
+
+![Example](examples/center_2017_10_08_18_21_59_562.jpg_flipped)
 
 I also included all the left and right camera angles for training, using only a relatively small correction. My correction angle value is a result of a lot of experimentation and I am not sure that it would work for all other networks because I heard all kinds of tips for this value but for me the best value was 0.055 (and I tried almost everything between 0.05 and 0.125). With bigger corrections the car reacted more agressively at turns but this became a problem on the second track (where really hard turns are quite common) and the car sometimes simply oversteered and fall off on the other side or was impossible to make the following hard turn.
 
