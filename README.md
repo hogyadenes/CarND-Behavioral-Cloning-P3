@@ -129,6 +129,6 @@ I also included all the left and right camera angles for training, using only a 
 
 After the this, I randomly removed 3/4 of the non-steering images to keep a more healthy ratio between straight sections and curves. Eventually, I had more than 90000 data points. As preprocessing I used only normalization and cropping.
 
-I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during training which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateaued. One epoch ran for about 2 minutes on my Geforce 980Ti.
+I finally randomly shuffled the data set and put 20% of the data into a validation set. In the validation set I only kept the center images because the network will see only these during driving. This showed a more realistic performance during validation which helped me to tune how many epochs I needed to run my training. Eventually I choose 5 after which the validation loss plateaued. One epoch ran for about 2 minutes on my Geforce 980Ti.
 
 As I used an adam optimizer manually training the learning rate wasn't necessary.
